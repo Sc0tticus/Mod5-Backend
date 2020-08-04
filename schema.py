@@ -17,4 +17,4 @@ result = schema.execute(
 
 )
 
-print(result.data.items())
+print(result.data['hello'])
