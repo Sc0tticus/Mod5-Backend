@@ -19,7 +19,7 @@ class Query(graphene.ObjectType):
   def resolve_is_admin(self, info):
     return True
 
-  def resolve_users(self, info, limit):
+  def resolve_users(self, info, limit=None):
     return [
       User(id="1", username="Fred", 
       created_at=datetime.now()),
@@ -33,7 +33,7 @@ schema = graphene.Schema(query=Query)
 result = schema.execute(
 '''
   {
-    users(limit: 1) {
+    users {
       id
       username
       createdAt
