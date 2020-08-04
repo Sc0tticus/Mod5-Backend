@@ -27,16 +27,32 @@ class Query(graphene.ObjectType):
       created_at=datetime.now())
     ][:limit]
 
+class CreateUser(graphene.Mutation):
+  user = graphene.Field(User)
 
-schema = graphene.Schema(query=Query)
+  class Arguments:
+    username = graphene.String()
+
+  def mutate(self, info, username):
+   user = User(id="3", username=username, 
+   created_at=datetime.now())
+   return CreateUser(user=user)
+
+class Mutation(graphene.ObjectType):
+  create_user = CreateUser.Field()
+
+
+schema = graphene.Schema(query=Query, mutation=Mutation)
 
 result = schema.execute(
 '''
-  {
-    users {
-      id
-      username
-      createdAt
+  mutation {
+    createUser(username: "Jeff"){
+      user {
+        id
+        username
+        createdAt
+      }
     }
   }
 '''
